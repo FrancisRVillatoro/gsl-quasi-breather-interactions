@@ -1,0 +1,26 @@
+cff-version: 1.2.0
+message: "If you use this software or data, please cite the associated manuscript and this archived release."
+title: "Local complex-tail interactions of graphene-superlattice quasi-breathers: reproducibility package"
+type: software
+authors:
+  - family-names: "Martin-Vergara"
+    given-names: "Francisca"
+  - family-names: "Rus"
+    given-names: "Francisco"
+  - family-names: "Villatoro"
+    given-names: "Francisco R."
+version: "1.0.0"
+date-released: 2026-09-02
+repository-code: "https://github.com/FrancisRVillatoro/gsl-quasi-breather-interactions"
+abstract: >
+  Numerical solvers, processed data, validation controls, and archived
+  analysis packages supporting the manuscript on phase-dependent
+  interactions of graphene-superlattice quasi-breathers.
+keywords:
+  - graphene superlattice
+  - quasi-breather
+  - nonlinear Klein-Gordon equation
+  - tail-mediated interaction
+  - sine-Gordon
+  - reproducibility
+license: MIT

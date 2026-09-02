@@ -1,0 +1,3 @@
+min_steps_per_period,max_steps_per_period,observed_order,R2_loglog,n_points
+40,320,4.155683545463795,0.9980847676668253,4
+80,320,3.934510456757653,0.999914854663124,3
