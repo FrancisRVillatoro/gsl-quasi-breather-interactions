@@ -1,10 +1,10 @@
 path	bytes
 .gitignore	93
-CITATION.cff	945
+CITATION.cff	1313
 LICENSE	1124
 LICENSE-DATA	472
 MANIFEST_FINAL.txt	3160
-README.md	2812
+README.md	3087
 code/benchmark_etdrk4_sg.py	3379
 code/benchmark_sg.py	8864
 code/build_chirp_template_b1_w3.py	6453

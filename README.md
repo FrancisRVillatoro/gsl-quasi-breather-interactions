@@ -76,12 +76,16 @@ python -m pip install -r requirements.txt
 
 ## Citation
 
-Please cite the associated manuscript and the archived Zenodo release.
-The release-specific DOI will be added here after the first Zenodo archive
-has been minted.
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22257369.svg)](https://doi.org/10.5281/zenodo.22257369)
 
-GitHub repository:
-https://github.com/FrancisRVillatoro/gsl-quasi-breather-interactions
+Please cite the associated manuscript and the archived reproducibility release:
+
+- Version `v1.0.0` DOI: https://doi.org/10.5281/zenodo.22257369
+- Concept DOI (all versions): https://doi.org/10.5281/zenodo.22257368
+- GitHub repository: https://github.com/FrancisRVillatoro/gsl-quasi-breather-interactions
+
+For exact reproducibility of the submitted manuscript, cite the version-specific
+DOI `10.5281/zenodo.22257369`.
 
 ## Licensing
 
