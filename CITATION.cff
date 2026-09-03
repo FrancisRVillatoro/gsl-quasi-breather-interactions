@@ -9,22 +9,18 @@ authors:
     given-names: "Francisco"
   - family-names: "Villatoro"
     given-names: "Francisco R."
-version: "1.0.0"
-date-released: 2026-09-02
-doi: "10.5281/zenodo.22257369"
+version: "1.0.1"
+date-released: 2026-09-03
 identifiers:
   - type: doi
     value: "10.5281/zenodo.22257368"
     description: "Concept DOI for all versions of the reproducibility package."
-  - type: doi
-    value: "10.5281/zenodo.22257369"
-    description: "Version-specific DOI for release v1.0.0 archived by Zenodo."
 repository-code: "https://github.com/FrancisRVillatoro/gsl-quasi-breather-interactions"
-repository-artifact: "https://doi.org/10.5281/zenodo.22257369"
 abstract: >
-  Numerical solvers, processed data, validation controls, and archived
-  analysis packages supporting the manuscript on phase-dependent
-  interactions of graphene-superlattice quasi-breathers.
+  Numerical solvers, processed data, validation controls, phase-resolved
+  two-body deformation diagnostics, publication-quality figures, and archived
+  analysis packages supporting the manuscript on interactions of
+  graphene-superlattice quasi-breathers.
 keywords:
   - graphene superlattice
   - quasi-breather
