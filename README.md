@@ -11,11 +11,12 @@ Repository: https://github.com/FrancisRVillatoro/gsl-quasi-breather-interactions
 
 ## Release status
 
-This repository is prepared for release **v1.0.1**. The version-specific DOI
-will be added to this README after Zenodo mints it from the GitHub release.
+The manuscript reproducibility snapshot is release **v1.0.1**, archived by
+Zenodo with the version-specific DOI:
 
+- `v1.0.1`: https://doi.org/10.5281/zenodo.22274849
 - Concept DOI, all versions: https://doi.org/10.5281/zenodo.22257368
-- Previous release `v1.0.0`: https://doi.org/10.5281/zenodo.22257369
+- Historical `v1.0.0`: https://doi.org/10.5281/zenodo.22257369
 
 ## Contents
 
@@ -178,15 +179,24 @@ python -m pip install -r requirements.txt
 
 ## Citation
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22257368.svg)](https://doi.org/10.5281/zenodo.22257368)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22274849.svg)](https://doi.org/10.5281/zenodo.22274849)
 
-Please cite the associated manuscript and the version-specific Zenodo release
-used in your work. The DOI above is the concept DOI and always resolves to the
-latest archived version.
+For exact reproduction of the submitted manuscript, cite the archived
+version-specific release:
+
+- `v1.0.1`: https://doi.org/10.5281/zenodo.22274849
+
+The concept DOI representing all versions is:
+
+- https://doi.org/10.5281/zenodo.22257368
 
 Historical release:
 
 - `v1.0.0`: https://doi.org/10.5281/zenodo.22257369
+
+GitHub repository:
+
+- https://github.com/FrancisRVillatoro/gsl-quasi-breather-interactions
 
 ## Licensing
 

@@ -5,17 +5,25 @@ type: software
 authors:
   - family-names: "Martin-Vergara"
     given-names: "Francisca"
+    orcid: "https://orcid.org/0000-0003-1478-8444"
   - family-names: "Rus"
     given-names: "Francisco"
+    orcid: "https://orcid.org/0000-0002-7641-0255"
   - family-names: "Villatoro"
     given-names: "Francisco R."
+    orcid: "https://orcid.org/0000-0003-4314-6213"
 version: "1.0.1"
 date-released: 2026-09-03
+doi: "10.5281/zenodo.22274849"
 identifiers:
+  - type: doi
+    value: "10.5281/zenodo.22274849"
+    description: "Version-specific DOI for release v1.0.1."
   - type: doi
     value: "10.5281/zenodo.22257368"
     description: "Concept DOI for all versions of the reproducibility package."
 repository-code: "https://github.com/FrancisRVillatoro/gsl-quasi-breather-interactions"
+repository-artifact: "https://doi.org/10.5281/zenodo.22274849"
 abstract: >
   Numerical solvers, processed data, validation controls, phase-resolved
   two-body deformation diagnostics, publication-quality figures, and archived
