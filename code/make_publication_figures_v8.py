@@ -1,14 +1,20 @@
 #!/usr/bin/env python3
-"""Regenerate the publication-quality figure set for the v1.0.1 archive.
+"""Build the publication-quality figures for the revised Wave Motion manuscript.
 
 Outputs are written to ``publication_figures/``. Line/scatter figures are
 vector PDF. The k-omega density map is intentionally raster PNG because it
-represents a 2-D spectral field.
+represents a 2-D spectral field. Figure 3 uses the author-supplied vector
+artwork archived under data/artwork/.
 """
 from pathlib import Path
 import csv
+import shutil
 import numpy as np
 import matplotlib.pyplot as plt
+
+from revised_wave_motion_figures import (
+    plot_isolated_tail, plot_momentum_balance, plot_quadratures,
+)
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / "data"
@@ -40,13 +46,7 @@ def finish(name, xlabel, ylabel, yscale=None, legend=True):
 
 
 def main():
-    # Isolated fundamental tail
-    d = np.load(DATA / "v3_allharmonic_template_spp320.npz")
-    x, CU, kap = d["x"], d["CU"], float(d["kappa"])
-    amp = np.hypot(CU[1], CU[2]); m = (x >= 0) & (x <= 20)
-    plt.figure(figsize=(6.4, 4.3)); plt.semilogy(x[m], amp[m], label=r"$|U_1(x)|$")
-    i = np.argmin(abs(x - 4.0)); plt.semilogy(x[m], amp[i] * np.exp(-kap * (x[m] - x[i])), "--", label=rf"$\propto e^{{-\kappa x}}$, $\kappa={kap:.3f}$")
-    finish("fig_isolated_tail", r"$x$", "fundamental amplitude")
+    plot_isolated_tail(DATA, OUT / "fig_isolated_tail.pdf")
 
     # All-harmonic amplitudes
     rows = [r for r in readcsv("v3_allharmonic_amplitudes.csv") if r["spp"] == 320]
@@ -121,13 +121,8 @@ def main():
     plt.axhline(1, ls=":", lw=1)
     finish("supp_age_laws", r"age $/T_0$", "measured / local prediction")
 
-    # Radiation dispersion
-    disp = readcsv("direct_radiation_dispersion_spp320.csv")
-    kk = np.linspace(0, 6.2, 400); plt.figure(figsize=(6.3, 4.3))
-    plt.plot(kk, np.sqrt(1 + kk**2), "--", label=r"$\omega^2=1+k^2$")
-    plt.scatter([r["k_peak_abs_2D"] for r in disp], [r["omega_peak_2D"] for r in disp], marker="o", label="measured odd-harmonic peaks")
-    for r in disp: plt.annotate(rf"$n={int(r['n'])}$", (r["k_peak_abs_2D"], r["omega_peak_2D"]), xytext=(5, 5), textcoords="offset points")
-    finish("fig_radiation", r"$|k|$", r"$\omega$")
+    # Preserve the author's final vector annotations and plotted dispersion branches.
+    shutil.copyfile(DATA / "artwork" / "fig_radiation.pdf", OUT / "fig_radiation.pdf")
 
     # A1/A2 separation scaling and local A2 test
     rows = readcsv("second_harmonic_distance_b1_w3.csv"); s = np.array([r["actual_kappaR"] for r in rows]); a1 = np.abs([r["A1"] for r in rows]); a2 = np.abs([r["A2"] for r in rows])
@@ -146,14 +141,7 @@ def main():
     plt.axhline(1, ls="--", lw=1)
     finish("fig_quartic_complete", r"$\kappa R$", "frozen-superposition ratio")
 
-    # Force-energy quadrature circle
-    rows = readcsv("m6_phase_force_energy_scan.csv"); summ = readcsv("m6_phase_force_energy_summary.csv"); plt.figure(figsize=(5.1, 5.1))
-    for target, marker in [(6.0, "o"), (7.0, "s"), (8.0, "^")]:
-        rr = sorted([r for r in rows if r["target_kappaR"] == target], key=lambda r: r["delta"]); sm = [r for r in summ if r["target_kappaR"] == target][0]
-        A1 = sm["A1_force_cos1"]; scale = sm["kappa"] / sm["omega"] / A1
-        plt.plot([r["Fbar"] / A1 for r in rr], [r["Pi_left"] * scale for r in rr], marker=marker, markevery=8, label=rf"$\kappa R\simeq {target:g}$")
-    plt.axhline(0, lw=.7); plt.axvline(0, lw=.7); plt.gca().set_aspect("equal", adjustable="box")
-    finish("fig_quadratures", r"$\overline{F}/A_1$", r"$(\kappa/\Omega)\,\overline{\Pi}_L/A_1$")
+    plot_quadratures(DATA, OUT / "fig_quadratures.pdf")
 
     # GSL frozen/evolved/full diagnostics
     rows = readcsv("v4_frozen_evolvedsuper_fullpair.csv"); rr = [r for r in rows if abs(r["delta_over_pi"] - .5) < 1e-12]
@@ -192,11 +180,7 @@ def main():
         plt.plot(th / (2 * np.pi), F, label=rf"exact tails, $\kappa R={ss:g}$"); plt.plot(th / (2 * np.pi), FM, "--", label=rf"Manton, $\kappa R={ss:g}$")
     finish("supp_m8_manton_instantaneous", r"breather phase $/(2\pi)$", r"$F_L(t)$")
 
-    # Momentum balance
-    d = np.load(DATA / "m4_momentum_flux_validation_timeseries.npz"); plt.figure(figsize=(6.5, 4.3))
-    for key, lab in [("k6_d0", r"$\kappa R\simeq6$"), ("k7_d0", r"$\kappa R\simeq7$")]:
-        t = d["t_" + key]; T = t[-1]; plt.plot(t / T, d["dP_" + key], label=r"$\Delta P_L$: " + lab); plt.plot(t / T, d["I_" + key], "--", label=r"$\int F_L\,dt$: " + lab)
-    finish("fig_momentum_flux", r"$t/T$", "interaction momentum / impulse")
+    plot_momentum_balance(DATA, OUT / "fig_momentum_flux.pdf")
 
     # Energy balance
     d = np.load(DATA / "m6_dynamic_energy_transfer_timeseries.npz"); plt.figure(figsize=(6.5, 4.3))

@@ -1,13 +1,24 @@
 #!/usr/bin/env python3
 """Decompose one-period frozen-template drift into U, Lambda, Gamma and A1^(2)."""
 from pathlib import Path
-import csv, numpy as np
+import argparse
+import csv
+
+import numpy as np
+
+from production_template import read_production_template
 from ssf4_gsl import grid, ssf4_step, spectral_derivative
 
 
 def main():
-    root=Path(__file__).resolve().parents[1]; data=root/"data"
-    d=np.load(data/"v3_allharmonic_template_spp320.npz")
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--output-dir", type=Path,
+                        default=Path(__file__).resolve().parents[1] / "data",
+                        help="directory for the regenerated drift CSV")
+    parser.add_argument("--template", type=Path, help="extracted production NPZ (default: archived milestone)")
+    args = parser.parse_args()
+    args.output_dir.mkdir(parents=True, exist_ok=True)
+    d = read_production_template(args.template)
     x=d["x"].copy(); CU=d["CU"].copy(); CV=d["CV"].copy(); CUx=d["CUx"].copy(); omega=float(d["omega"]); kappa=float(d["kappa"])
     H=(1,3,5,7); N=len(x); dx=x[1]-x[0]; L=N*dx; _,_,k,omega_k=grid(N,L); T=2*np.pi/omega; spp=320; dt=T/spp
     def rec(theta):
@@ -33,7 +44,7 @@ def main():
             A1=.5*(abs(U)**2-abs(V)**2+abs(D)**2); Lam=-D/U; Gam=V/(1j*omega*U); return A1,Lam,Gam
         A1f,Lf,Gf=diag(Uf,Vf,Df); A1e,Le,Ge=diag(Ue,Ve,De)
         rows.append({"target_kappaR":target,"x_eval":x[i],"actual_kappaR":2*kappa*x[i],"Uabs_frozen":abs(Uf),"Uabs_evolved":abs(Ue),"Uabs_ratio":abs(Ue)/abs(Uf),"U2_ratio":abs(Ue)**2/abs(Uf)**2,"Lambda_frozen_real":Lf.real,"Lambda_frozen_imag":Lf.imag,"Lambda_evolved_real":Le.real,"Lambda_evolved_imag":Le.imag,"Lambda_abs_ratio":abs(Le)/abs(Lf),"Gamma_frozen_real":Gf.real,"Gamma_frozen_imag":Gf.imag,"Gamma_evolved_real":Ge.real,"Gamma_evolved_imag":Ge.imag,"A1quad_frozen":A1f,"A1quad_evolved":A1e,"A1quad_ratio":A1e/A1f})
-    with open(data/"v8_template_tail_decomposition.csv","w",newline="") as f:
+    with open(args.output_dir/"v8_template_tail_decomposition.csv","w",newline="") as f:
         w=csv.DictWriter(f,fieldnames=list(rows[0]));w.writeheader();w.writerows(rows)
     for r in rows: print(r)
 

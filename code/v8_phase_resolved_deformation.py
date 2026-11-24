@@ -14,6 +14,7 @@ from pathlib import Path
 import argparse, csv
 import numpy as np
 
+from production_template import read_production_template
 from ssf4_gsl import grid, ssf4_step, spectral_derivative, gsl_potential
 
 
@@ -76,8 +77,8 @@ def sg_scan(target=7.0, omega=0.9, spp=160, nphase=16, N=2048, L=240.0):
     return delta, np.asarray(Fsup), np.asarray(Ffull), kappa, R
 
 
-def gsl_scan(template_path, target=7.0, spp=160, nphase=16):
-    d = np.load(template_path)
+def gsl_scan(template_path=None, target=7.0, spp=160, nphase=16):
+    d = read_production_template(template_path)
     x = d["x"].copy(); CU = d["CU"].copy(); CV = d["CV"].copy()
     omega = float(d["omega"]); kappa = float(d["kappa"])
     H = (1, 3, 5, 7)
@@ -144,16 +145,24 @@ def write_case(name, delta, sup, full, kappa, R, outdir):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--data-dir", type=Path, default=Path(__file__).resolve().parents[1] / "data")
+    ap.add_argument("--data-dir", type=Path, default=Path(__file__).resolve().parents[1] / "data",
+                    help="input data directory and default destination for regenerated CSVs")
+    ap.add_argument("--output-dir", type=Path, help="override the CSV destination")
+    ap.add_argument("--template", type=Path, help="extracted production NPZ (default: archived milestone)")
     ap.add_argument("--spp", type=int, default=160)
     ap.add_argument("--nphase", type=int, default=16)
     args = ap.parse_args()
-    args.data_dir.mkdir(parents=True, exist_ok=True)
+    output = args.output_dir if args.output_dir is not None else args.data_dir
+    output.mkdir(parents=True, exist_ok=True)
+    # An extracted production template in the selected data directory takes precedence
+    # over the repository milestone. An explicit input path takes precedence over both.
+    template = args.template
+    if template is None and (args.data_dir / "chirp_template_spp320.npz").is_file():
+        template = args.data_dir / "chirp_template_spp320.npz"
     d, s, f, k, R = sg_scan(spp=args.spp, nphase=args.nphase)
-    print(write_case("SG", d, s, f, k, R, args.data_dir))
-    template = args.data_dir / "v3_allharmonic_template_spp320.npz"
+    print(write_case("SG", d, s, f, k, R, output))
     d, s, f, k, R = gsl_scan(template, spp=args.spp, nphase=args.nphase)
-    print(write_case("GSL", d, s, f, k, R, args.data_dir))
+    print(write_case("GSL", d, s, f, k, R, output))
 
 
 if __name__ == "__main__":

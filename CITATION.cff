@@ -1,6 +1,6 @@
 cff-version: 1.2.0
 message: "If you use this software or data, please cite the associated manuscript and this archived release."
-title: "Local complex-tail interactions of graphene-superlattice quasi-breathers: reproducibility package"
+title: "Forces and energy transfer between graphene-superlattice quasi-breathers: reproducibility package"
 type: software
 authors:
   - family-names: "Martin-Vergara"
@@ -12,18 +12,13 @@ authors:
   - family-names: "Villatoro"
     given-names: "Francisco R."
     orcid: "https://orcid.org/0000-0003-4314-6213"
-version: "1.0.1"
-date-released: 2026-09-03
-doi: "10.5281/zenodo.22274849"
+version: "1.0.2"
 identifiers:
-  - type: doi
-    value: "10.5281/zenodo.22274849"
-    description: "Version-specific DOI for release v1.0.1."
   - type: doi
     value: "10.5281/zenodo.22257368"
     description: "Concept DOI for all versions of the reproducibility package."
 repository-code: "https://github.com/FrancisRVillatoro/gsl-quasi-breather-interactions"
-repository-artifact: "https://doi.org/10.5281/zenodo.22274849"
+repository-artifact: "https://github.com/FrancisRVillatoro/gsl-quasi-breather-interactions/releases/tag/v1.0.2"
 abstract: >
   Numerical solvers, processed data, validation controls, phase-resolved
   two-body deformation diagnostics, publication-quality figures, and archived

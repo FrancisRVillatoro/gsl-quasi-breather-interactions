@@ -1,5 +1,13 @@
 # Changelog
 
+## v1.0.2 — Wave Motion revision
+
+- Corrected the production-template selection for the phase-resolved deformation and frozen/evolved tail-drift drivers.
+- Archived the isolated-state simulation used for Figure 2 and the authors’ revised Figure 3. Updated the publication exports for Figures 2, 3, 6 and 8 and the corresponding figure-to-script map.
+- Added numerical checks against the archived phase and drift tables, the isolated spatial fit and the radial residuals of the phase scan.
+
+Full details are in [the v1.0.2 release notes](RELEASE_NOTES_v1.0.2.md).
+
 ## v1.0.1 — 2026-09-03
 
 Pre-submission reproducibility update.
